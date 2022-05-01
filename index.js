@@ -26,12 +26,13 @@ app.get("/news", async (req, res) => {
     // pass HTML data to cherrio which will allow us to pick out what elements we want
     const $ = cheerio.load(html);
 
+    // take the data needed
     $(".entry-title", html).each((index, element) => {
       const title = $(this).text();
       const link = $(this).children("a").attr("href");
       console.log($(element).text());
     });
-    
+
   } catch (error) {
     console.log(error);
   }
