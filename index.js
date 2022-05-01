@@ -17,6 +17,7 @@ app.get("/news", async (req, res) => {
   console.log("GET NEWS");
   console.log("====================================");
   try {
+
     const result = await axios.get(
       "https://sustainabilitynews.eu/category/news/"
     );
@@ -30,6 +31,7 @@ app.get("/news", async (req, res) => {
       const link = $(this).children("a").attr("href");
       console.log($(element).text());
     });
+    
   } catch (error) {
     console.log(error);
   }
