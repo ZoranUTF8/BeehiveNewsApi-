@@ -30,10 +30,6 @@ app.get("/news", async (req, res) => {
       const link = $(this).children("a").attr("href");
       console.log($(element).text());
     });
-
-    // console.log($(".entry-title ").text());
-
-    // console.log($(".css-ye6x8s").children().first().html());
   } catch (error) {
     console.log(error);
   }
