@@ -1,6 +1,6 @@
 "use strict";
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 const express = require("express");
 const axios = require("axios");
 const cheerio = require("cheerio");
@@ -10,37 +10,39 @@ const articles = [];
 // array that hold news sources
 const sources = [
   {
-    name: "sustainabilitynews",
+    name: "Sustainabilitynews",
     address: "https://sustainabilitynews.eu/category/news/",
     source: "sustainabilitynews",
   },
   {
-    name: "oekonews",
+    name: "Oekonews",
     address: "https://www.oekonews.at/",
     source: "oekonews",
     base: "https://www.oekonews.at",
   },
   {
-    name: "utopiaEnergie",
+    name: "UtopiaEnergie",
     address: "https://utopia.de/energie/",
     source: "utopia-energie",
   },
   {
-    name: "utopiaWissenTechnik",
+    name: "UtopiaWissenTechnik",
     address: "https://utopia.de/wissen-technik/",
     source: "utopia-technik",
   },
 ];
 
 sources.forEach(async function (source) {
+  // fetch source page html
   const result = await axios.get(source.address);
-
+  // Assign the page html
   const sourceHtml = result.data;
-
+  // Load the source html into cherrio
   const $ = cheerio.load(sourceHtml);
 
+  // Retrive the elements data as needed
   switch (source.name) {
-    case "sustainabilitynews":
+    case "Sustainabilitynews":
       $(".td-image-wrap ", sourceHtml).each((_, element) => {
         const imgLink = $(element).children("img").attr("data-img-url");
         const title = $(element).children("img").attr("title");
@@ -53,7 +55,7 @@ sources.forEach(async function (source) {
 
       break;
 
-    case "oekonews":
+    case "Oekonews":
       $(".uebersicht", sourceHtml).each((_, element) => {
         const imgLink =
           sources[1].base +
@@ -75,7 +77,7 @@ sources.forEach(async function (source) {
       });
       break;
 
-    case "utopiaEnergie":
+    case "UtopiaEnergie":
       $(".standard-post", sourceHtml).each((_, element) => {
         const imgLink =
           $(element)
@@ -107,7 +109,7 @@ sources.forEach(async function (source) {
       });
       break;
 
-    case "utopiaWissenTechnik":
+    case "UtopiaWissenTechnik":
       $(".standard-post", sourceHtml).each((_, element) => {
         const imgLink =
           $(element)
@@ -147,14 +149,22 @@ sources.forEach(async function (source) {
 // * API ROUTES
 
 app.get("/", (req, res) => {
-  res.json("ola");
+  res.json("Welcome to beehivve news api, to get the news go to /news!");
 });
 
-app.get("/news", async (req, res) => {
-  console.log(articles);
+app.get("/news", (req, res) => {
   res.json(articles);
 });
 
+app.get("/news/:sourceName", (req, res) => {
+  const { sourceName } = req.params;
+
+  const source = sources.filter((source) => source.name === sourceName);
+
+  //  GET SPECIFIC NEWS IF NEEDED
+});
+
+//
 app.listen(PORT, () => {
   console.log(`Server on : ${PORT}`);
 });
