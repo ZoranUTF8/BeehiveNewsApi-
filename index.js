@@ -36,40 +36,48 @@ sources.forEach(async function (source) {
   const result = await axios.get(source.address);
 
   const sourceHtml = result.data;
+
   const $ = cheerio.load(sourceHtml);
 
   switch (source.name) {
     case "sustainabilitynews":
-      $(".td-image-wrap ", sourceHtml).each((_, element) => {
-        const imgLink = $(element).children("img").attr("data-img-url");
-        const title = $(element).children("img").attr("title");
-        const newsLink = $(element).attr("href");
-        const source = "international";
-        // articles.push({ title, imgLink, newsLink, source });
-      });
+      // $(".td-image-wrap ", sourceHtml).each((_, element) => {
+      //   const imgLink = $(element).children("img").attr("data-img-url");
+      //   const title = $(element).children("img").attr("title");
+      //   const newsLink = $(element).attr("href");
+      //   const source = "international";
+
+      //   articles.push({ title, imgLink, newsLink, source });
+      // });
+
       break;
 
     case "oekonews":
-      $(".uebersicht", sourceHtml).each((_, element) => {
-        const imgLink =
-          sources[1].base +
-            $(element).children("a").children("img").attr("src") ||
-          $(element).children("h2").children("a").attr("href");
+      // $(".uebersicht", sourceHtml).each((_, element) => {
+      //   const imgLink =
+      //     sources[1].base +
+      //     $(element).children("a").children("img").attr("src") ||
+      //     $(element).children("h2").children("a").attr("href");
 
-        const title = $(element).children("h2").text();
+      //   const newsLink = $(element).children("a").attr("href").slice(2);
+      //   const title = $(element).children("h2").text();
+      //   const source = "europe";
 
-        const source = "europe";
+      //   articles.push({
+      //     title,
+      //     imgLink,
+      //     newsLink,
+      //     source,
+      //   });
 
-        articles.push({
-          imgLink,
-          title,
-          source,
-        });
-      });
-      console.log(articles);
+      // });
       break;
+
     case "utopiaEnergie":
+
+
       break;
+
     case "utopiaWissenTechnik":
       break;
     default:
@@ -84,25 +92,9 @@ app.get("/", (req, res) => {
 });
 
 app.get("/news", async (req, res) => {
-  // try {
-  //   const result = await axios.get(
-  //     "https://sustainabilitynews.eu/category/news/"
-  //   );
-  //   const html = result.data;
-  //   // pass HTML data to cherrio which will allow us to pick out what elements we want
-  //   const $ = cheerio.load(html);
-  //   // take the img link and news title
-  //   $(".td-image-wrap ", html).each((_, element) => {
-  //     const imgLink = $(element).children("img").attr("data-img-url");
-  //     const title = $(element).children("img").attr("title");
-  //     const newsLink = $(element).attr("href");
-  //     const source = "international";
-  //     articles.push({ title, imgLink, newsLink, source });
-  //   });
-  // } catch (error) {
-  //   console.log(error);
-  // }
-  // // send the articles object as json
+  
+
+  console.log(articles);
   res.json(articles);
 });
 
