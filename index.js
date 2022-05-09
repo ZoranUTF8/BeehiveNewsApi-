@@ -11,23 +11,26 @@ const sources = [
     name: "Sustainabilitynews",
     address: "https://sustainabilitynews.eu/category/news/",
     source: "sustainabilitynews",
-    area: "international",
+    area: "International",
   },
   {
     name: "Oekonews",
     address: "https://www.oekonews.at/",
     source: "oekonews",
     base: "https://www.oekonews.at",
+    area: "Europe",
   },
   {
     name: "UtopiaEnergie",
     address: "https://utopia.de/energie/",
     source: "utopia-energie",
+    area: "Europe",
   },
   {
     name: "UtopiaWissenTechnik",
     address: "https://utopia.de/wissen-technik/",
     source: "utopia-technik",
+    area: "Europe",
   },
 ];
 
@@ -63,7 +66,6 @@ sources.forEach(async function (source) {
   // Retrive the elements data as needed
   switch (source.name) {
     case "Sustainabilitynews":
-    
       $(".td_module_10", sourceHtml).each((_, element) => {
         const imgLink = $(element)
           .children()
@@ -102,31 +104,60 @@ sources.forEach(async function (source) {
 
         const area = source?.area;
 
-        articles.push({
-          title,
-          imgLink,
-          newsLink,
-          newsDateOut,
-          newsDescriptionOut,
-          newsSource,
-          area,
-        });
-
+        // articles.push({
+        //   title,
+        //   imgLink,
+        //   newsLink,
+        //   newsDateOut,
+        //   newsDescriptionOut,
+        //   newsSource,
+        //   area,
+        // });
       });
 
       break;
 
     case "Oekonews":
-      // $(".uebersicht", sourceHtml).each((_, element) => {
-      //   const imgLink =
-      //     sources[1].base +
-      //       $(element).children("a").children("img").attr("src") ||
-      //     $(element).children("h2").children("a").attr("href");
+      $(".uebersicht", sourceHtml).each((_, element) => {
+        const imgLink =
+          sources[1].base +
+            $(element).children("a").children("img").attr("src") ||
+          $(element).children("h2").children("a").attr("href");
 
-      //   const newsLink = $(element).children("a").attr("href").slice(2);
-      //   const title = $(element).children("h2").text();
-      //   const newsSource = source.source;
-      //   const area = "europe";
+        const newsLink = $(element).children("a").attr("href").slice(2);
+
+        const title = $(element).children("h2").text();
+
+        const newsSource = source.source;
+
+        const area = source.area;
+
+        const newsDate = $(element)
+          .children("p")
+          .first()
+          .children()
+          .children("time")
+          .text();
+        const newsDateOut = fixDateSpaces(newsDate);
+
+        let newsDescription = $(element)
+          .children("p")
+          .first()
+          .children("a")
+          .text()
+          .slice(63);
+
+        articles.push({
+          title,
+          imgLink,
+          newsLink,
+          newsDateOut,
+          newsDescription,
+          newsSource,
+          area,
+        });
+        console.log(articles);
+      });
 
       //   articles.push({
       //     title,
@@ -135,7 +166,7 @@ sources.forEach(async function (source) {
       //     newsSource,
       //     area,
       //   });
-      // });
+
       break;
 
     case "UtopiaEnergie":
