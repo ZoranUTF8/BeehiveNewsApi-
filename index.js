@@ -147,58 +147,68 @@ sources.forEach(async function (source) {
           .text()
           .slice(63);
 
-        articles.push({
-          title,
-          imgLink,
-          newsLink,
-          newsDateOut,
-          newsDescription,
-          newsSource,
-          area,
-        });
-        console.log(articles);
+        // articles.push({
+        //   title,
+        //   imgLink,
+        //   newsLink,
+        //   newsDateOut,
+        //   newsDescription,
+        //   newsSource,
+        //   area,
+        // });
       });
-
-      //   articles.push({
-      //     title,
-      //     imgLink,
-      //     newsLink,
-      //     newsSource,
-      //     area,
-      //   });
 
       break;
 
     case "UtopiaEnergie":
-      // $(".standard-post", sourceHtml).each((_, element) => {
-      //   const imgLink =
-      //     $(element)
-      //       .children()
-      //       .first()
-      //       .children()
-      //       .children()
-      //       .attr("data-lazy-src") ||
-      //     $(element).children().first().children().children().attr("src");
+      $(".standard-post", sourceHtml).each((_, element) => {
+        const imgLink =
+          $(element)
+            .children()
+            .first()
+            .children()
+            .children()
+            .attr("data-lazy-src") ||
+          $(element).children().first().children().children().attr("src");
 
-      //   const newsLink = $(element)
-      //     .children()
-      //     .last()
-      //     .children()
-      //     .children("a")
-      //     .attr("href");
+        const newsLink = $(element).children().children().attr("href");
 
-      //   const title = $(element).children().last().children("h3").text();
-      //   const newsSource = source.source;
-      //   const area = "europe";
+        const title = $(element).children().last().children("h3").text();
 
-      //   articles.push({
-      //     title,
-      //     imgLink,
-      //     newsLink,
-      //     newsSource,
-      //     area,
-      //   });
-      // });
+        const newsDate = $(element)
+          .children()
+          .last()
+          .children("p")
+          .children()
+          .children()
+          .children()
+          .last()
+          .children()
+          .last()
+          .text();
+
+        let newsDescriptionIn = $(element)
+          .children()
+          .last()
+          .children("p")
+          .text();
+
+        let newsDescriptionOut = trimNewsDescription(newsDescriptionIn).trim();
+
+        const newsSource = source.source;
+        const area = source.area;
+
+        articles.push({
+          title,
+          imgLink,
+          newsLink,
+          newsDate,
+          newsDescriptionOut,
+          newsSource,
+          area,
+        });
+      });
+      console.log(articles);
       break;
 
     case "UtopiaWissenTechnik":
