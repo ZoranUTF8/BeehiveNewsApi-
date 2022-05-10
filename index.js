@@ -10,26 +10,26 @@ const sources = [
   {
     name: "Sustainabilitynews",
     address: "https://sustainabilitynews.eu/category/news/",
-    source: "sustainabilitynews",
+    source: "Sustainability news",
     area: "International",
   },
   {
     name: "Oekonews",
     address: "https://www.oekonews.at/",
-    source: "oekonews",
+    source: "Oekonews",
     base: "https://www.oekonews.at",
     area: "Europe",
   },
   {
     name: "UtopiaEnergie",
     address: "https://utopia.de/energie/",
-    source: "utopia-energie",
+    source: "Utopia energie",
     area: "Europe",
   },
   {
     name: "UtopiaWissenTechnik",
     address: "https://utopia.de/wissen-technik/",
-    source: "utopia-technik",
+    source: "Utopia technik",
     area: "Europe",
   },
 ];
@@ -95,7 +95,7 @@ sources.forEach(async function (source) {
           .text();
 
         const newsDescriptionOut = trimNewsDescription(
-          removeExtraLines(newsDescriptionIn)
+          removeExtraLines(newsDescriptionIn.trim())
         );
 
         const newsLink = $(element).children().first().children().attr("href");
@@ -104,15 +104,15 @@ sources.forEach(async function (source) {
 
         const area = source?.area;
 
-        // articles.push({
-        //   title,
-        //   imgLink,
-        //   newsLink,
-        //   newsDateOut,
-        //   newsDescriptionOut,
-        //   newsSource,
-        //   area,
-        // });
+        articles.push({
+          title,
+          imgLink,
+          newsLink,
+          newsDateOut,
+          newsDescriptionOut,
+          newsSource,
+          area,
+        });
       });
 
       break;
@@ -140,22 +140,14 @@ sources.forEach(async function (source) {
           .text();
         const newsDateOut = fixDateSpaces(newsDate);
 
-        let newsDescription = $(element)
-          .children("p")
-          .first()
-          .children("a")
-          .text()
-          .slice(63);
-
-        // articles.push({
-        //   title,
-        //   imgLink,
-        //   newsLink,
-        //   newsDateOut,
-        //   newsDescription,
-        //   newsSource,
-        //   area,
-        // });
+        articles.push({
+          title,
+          imgLink,
+          newsLink,
+          newsDateOut,
+          newsSource,
+          area,
+        });
       });
 
       break;
@@ -193,7 +185,9 @@ sources.forEach(async function (source) {
           .children("p")
           .text();
 
-        let newsDescriptionOut = trimNewsDescription(newsDescriptionIn).trim();
+        let newsDescriptionOut = trimNewsDescription(
+          removeExtraLines(newsDescriptionIn.trim())
+        );
 
         const newsSource = source.source;
         const area = source.area;
@@ -208,39 +202,65 @@ sources.forEach(async function (source) {
           area,
         });
       });
-      console.log(articles);
+
       break;
 
     case "UtopiaWissenTechnik":
-      // $(".standard-post", sourceHtml).each((_, element) => {
-      //   const imgLink =
-      //     $(element)
-      //       .children()
-      //       .first()
-      //       .children()
-      //       .children()
-      //       .attr("data-lazy-src") ||
-      //     $(element).children().first().children().children().attr("src");
+      $(".standard-post", sourceHtml).each((_, element) => {
+        const imgLink =
+          $(element)
+            .children()
+            .first()
+            .children()
+            .children()
+            .attr("data-lazy-src") ||
+          $(element).children().first().children().children().attr("src");
 
-      //   const newsLink = $(element)
-      //     .children()
-      //     .last()
-      //     .children()
-      //     .children("a")
-      //     .attr("href");
+        const newsLink = $(element)
+          .children()
+          .last()
+          .children()
+          .children("a")
+          .attr("href");
 
-      //   const title = $(element).children().last().children("h3").text();
-      //   const newsSource = source.source;
-      //   const area = "europe";
+        const title = $(element).children().last().children("h3").text();
 
-      //   articles.push({
-      //     title,
-      //     imgLink,
-      //     newsLink,
-      //     newsSource,
-      //     area,
-      //   });
-      // });
+        const newsSource = source.source;
+
+        const area = "europe";
+
+        const newsDescriptionIn = $(element)
+          .children()
+          .last()
+          .children("p")
+          .text();
+
+        const newsDescriptionOut = trimNewsDescription(
+          newsDescriptionIn.trim()
+        );
+
+        const newsDate = $(element)
+          .children()
+          .last()
+          .children("p")
+          .children()
+          .children()
+          .children()
+          .last()
+          .children()
+          .last()
+          .text();
+
+        articles.push({
+          title,
+          imgLink,
+          newsLink,
+          newsDescriptionOut,
+          newsDate,
+          newsSource,
+          area,
+        });
+      });
 
       break;
     default:
