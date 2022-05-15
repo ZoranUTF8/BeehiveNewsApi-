@@ -4,13 +4,16 @@
 			"path": "."
 		},
 		{
-			"path": "../Dev/Basic react project/react-projects/02-tours"
-		},
-		{
 			"path": "../noviPosaoMern"
 		},
 		{
 			"path": "../practiceJs"
+		},
+		{
+			"path": "../Beehivve"
+		},
+		{
+			"path": "../react-projects/15-cocktails"
 		}
 	],
 	"settings": {}

@@ -4,7 +4,8 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const app = express();
 //* array that hold news articles
-const articles = [];
+const articlesInternational = [];
+const articlesEurope = [];
 //* array that hold news sources
 const sources = [
   {
@@ -81,12 +82,12 @@ sources.forEach(async function (source) {
           .children("img")
           .attr("title");
 
-        let newsDate = $(element)
+        let newsDateIn = $(element)
           .children()
           .last()
           .children(".td-module-meta-info")
           .text();
-        const newsDateOut = fixDateSpaces(newsDate);
+        const newsDate = fixDateSpaces(newsDateIn);
 
         let newsDescriptionIn = $(element)
           .children()
@@ -104,11 +105,11 @@ sources.forEach(async function (source) {
 
         const area = source?.area;
 
-        articles.push({
+        articlesInternational.push({
           title,
           imgLink,
           newsLink,
-          newsDateOut,
+          newsDate,
           newsDescriptionOut,
           newsSource,
           area,
@@ -132,19 +133,19 @@ sources.forEach(async function (source) {
 
         const area = source.area;
 
-        const newsDate = $(element)
+        const newsDateIn = $(element)
           .children("p")
           .first()
           .children()
           .children("time")
           .text();
-        const newsDateOut = fixDateSpaces(newsDate);
+        const newsDate = fixDateSpaces(newsDateIn);
 
-        articles.push({
+        articlesEurope.push({
           title,
           imgLink,
           newsLink,
-          newsDateOut,
+          newsDate,
           newsSource,
           area,
         });
@@ -192,7 +193,7 @@ sources.forEach(async function (source) {
         const newsSource = source.source;
         const area = source.area;
 
-        articles.push({
+        articlesEurope.push({
           title,
           imgLink,
           newsLink,
@@ -251,7 +252,7 @@ sources.forEach(async function (source) {
           .last()
           .text();
 
-        articles.push({
+        articlesEurope.push({
           title,
           imgLink,
           newsLink,
@@ -274,8 +275,11 @@ app.get("/", (req, res) => {
   res.json("Welcome to beehivve news api, to get the news go to /news!");
 });
 
-app.get("/news", (req, res) => {
-  res.json(articles);
+app.get("/news/europe", (req, res) => {
+  res.json(articlesEurope);
+});
+app.get("/news/international", (req, res) => {
+  res.json(articlesInternational);
 });
 
 // Todo
