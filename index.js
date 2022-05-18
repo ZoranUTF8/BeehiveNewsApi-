@@ -125,7 +125,11 @@ sources.forEach(async function (source) {
             $(element).children("a").children("img").attr("src") ||
           $(element).children("h2").children("a").attr("href");
 
-        const newsLink = $(element).children("a").attr("href").slice(2);
+        let newsLink = $(element).children("a").attr("href");
+
+        newsLink = newsLink != undefined ? newsLink.slice(2) : "";
+
+        console.log(newsLink);
 
         const title = $(element).children("h2").text();
 
@@ -272,7 +276,9 @@ sources.forEach(async function (source) {
 // * API ROUTES
 
 app.get("/", (req, res) => {
-  res.json("Welcome to beehivve news api, to get the news go to /news!");
+  res.json(
+    "Welcome to beehivve news api, to get the news go to /news/ europe or international!"
+  );
 });
 
 app.get("/news/europe", (req, res) => {

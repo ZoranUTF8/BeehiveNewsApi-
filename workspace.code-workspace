@@ -16,5 +16,7 @@
 			"path": "../react-projects/15-cocktails"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "practiceJs"
+	}
 }
