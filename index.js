@@ -3,9 +3,11 @@ const express = require("express");
 const axios = require("axios");
 const cheerio = require("cheerio");
 const app = express();
+
 //* array that hold news articles
 const articlesInternational = [];
 const articlesEurope = [];
+
 //* array that hold news sources
 const sources = [
   {
@@ -38,7 +40,7 @@ const sources = [
 //* Returns the substring with our defaultNewsDescriptionLength as specified.
 //* If you want the length of the news longer then just increase the defaultNewsDescriptionLength to your wishes
 function trimNewsDescription(newsParam) {
-  const defaultNewsDescriptionLength = 150;
+  const defaultNewsDescriptionLength = 100;
   let newsParamOut = "";
 
   newsParam.length > defaultNewsDescriptionLength
