@@ -131,13 +131,19 @@ sources.forEach(async function (source) {
 
         newsLink = newsLink != undefined ? newsLink.slice(2) : "";
 
-        console.log(newsLink);
-
         const title = $(element).children("h2").text();
 
         const newsSource = source.source;
 
         const area = source.area;
+
+        const newsDescriptionIn = $(element)
+          .children("p")
+          .first()
+          .children()
+          .text();
+
+        const newsDescriptionOut = newsDescriptionIn.trim();
 
         const newsDateIn = $(element)
           .children("p")
@@ -145,6 +151,7 @@ sources.forEach(async function (source) {
           .children()
           .children("time")
           .text();
+
         const newsDate = fixDateSpaces(newsDateIn);
 
         articlesEurope.push({
@@ -154,6 +161,7 @@ sources.forEach(async function (source) {
           newsDate,
           newsSource,
           area,
+          newsDescriptionOut,
         });
       });
 
@@ -234,7 +242,7 @@ sources.forEach(async function (source) {
 
         const newsSource = source.source;
 
-        const area = "europe";
+        const area = source.area;
 
         const newsDescriptionIn = $(element)
           .children()
